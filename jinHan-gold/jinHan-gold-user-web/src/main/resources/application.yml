@@ -6,26 +6,27 @@ spring:
     name: jinHan-gold-user-web
   cloud:
     config:
-      uri: http://localhost:8888
-      username: config-server
-      password: config-server-password
-      profile: dev
-      label: main
+      uri: ${CONFIG_SERVER_URI:http://localhost:8888}
+      username: ${CONFIG_SERVER_USERNAME:config-server}
+      password: ${CONFIG_SERVER_PASSWORD:config-server-password}
+      profile: ${CONFIG_PROFILE:dev}
+      label: ${CONFIG_LABEL:main}
 
   web:
     resources:
       add-mappings: false
 
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/jinHan
-    username: root
-    password: xuzeyu456
+    driver-class-name: ${DB_DRIVER_CLASS_NAME:com.mysql.jdbc.Driver}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/jinHan}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:xuzeyu456}
 
     # Redis配置
     redis:
-      host: localhost
-      port: 6379
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
 
 mybatis-plus:
   configuration:

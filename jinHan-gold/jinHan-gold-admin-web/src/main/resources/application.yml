@@ -19,15 +19,15 @@ spring:
       max-request-size: 10MB
 
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/jinHan
-    username: root
-    password: xuzeyu456
+    driver-class-name: ${DB_DRIVER_CLASS_NAME}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
     # Redis配置
     redis:
-      host: localhost
-      port: 6379
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
 
 server:
   port: 8081
@@ -62,8 +62,8 @@ sa-token:
   token-prefix: Bearer
 aliyun:
   oss:
-    endpoint: oss-cn-heyuan.aliyuncs.com
+    endpoint: ${ALIYUN_OSS_ENDPOINT}
     access-key-id: ${ALIYUN_OSS_ACCESS_KEY_ID}
     access-key-secret: ${ALIYUN_OSS_ACCESS_KEY_SECRET}
-    bucket-name: bdj-mall-img
-    region: cn-heyuan
+    bucket-name: ${ALIYUN_OSS_BUCKET_NAME}
+    region: ${ALIYUN_OSS_REGION}

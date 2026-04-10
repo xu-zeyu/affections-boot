@@ -11,10 +11,7 @@ import com.jinHan.gold.core.log.domain.command.LogPageCommand;
 import com.jinHan.gold.core.log.domain.handler.LogDeleteHandler;
 import com.jinHan.gold.core.log.domain.handler.LogQueryHandler;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 日志控制器
@@ -42,7 +39,7 @@ public class LogController {
      * 删除日志
      */
     @Log(value = "删除日志", operationType = "LOG_DELETE")
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public Result<Boolean> delete(@RequestBody LogDeleteCommand command) {
         logDeleteHandler.delete(command);
         return Result.success(true);
