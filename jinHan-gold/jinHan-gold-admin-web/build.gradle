@@ -1,0 +1,23 @@
+// 公共模块配置
+description = 'jinHan项目管理后台'
+
+group = "com.jinHan"
+
+apply from: "${rootDir}/buildSrc/src/main/groovy/com.affectionsboot.conventions.spring-boot.gradle"
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    implementation(project(":affections-boot-common"))
+    implementation(project(":affections-boot-auth"))
+    implementation(project(":affections-boot-start:affections-boot-starter-file"))
+    implementation(project(":affections-boot-start:affections-boot-starter-cache"))
+    implementation(project(":jinHan-gold:jinHan-gold-core"))
+    implementation(project(":affections-boot-start:affections-boot-starter-log"))
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+test {
+    useJUnitPlatform()
+}

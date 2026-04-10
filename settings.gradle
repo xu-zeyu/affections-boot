@@ -1,0 +1,36 @@
+// 定义根项目名称
+rootProject.name = 'affections-boot'
+
+// 包含公共模块
+include 'affections-boot-common'
+include 'affections-boot-auth'
+
+// 包含业务公共模块（父子工程）
+include 'affections-boot-start'
+project(':affections-boot-start').projectDir = file('affections-boot-start')
+
+// 包含业务模块（父子工程）
+include 'jinHan-gold'
+project(':jinHan-gold').projectDir = file('jinHan-gold')
+
+// 包含 jinHan-gold 下的子模块
+include 'jinHan-gold:jinHan-gold-admin-web'
+include 'jinHan-gold:jinHan-gold-user-web'
+include 'jinHan-gold:jinHan-gold-core'
+
+
+include 'affections-boot-start:affections-boot-starter-file'
+findProject(':affections-boot-start:affections-boot-starter-file')?.name = 'affections-boot-starter-file'
+
+include 'affections-boot-start:affections-boot-starter-mybatis'
+findProject(':affections-boot-start:affections-boot-starter-mybatis')?.name = 'affections-boot-starter-mybatis'
+include 'affections-boot-auth'
+include 'affections-boot-start:affections-boot-starter-cache'
+findProject(':affections-boot-start:affections-boot-starter-cache')?.name = 'affections-boot-starter-cache'
+
+include 'affections-boot-start:affections-boot-starter-log'
+findProject(':affections-boot-start:affections-boot-starter-log')?.name = 'affections-boot-starter-log'
+
+include 'affections-boot-start:affections-boot-starter-config'
+findProject(':affections-boot-start:affections-boot-starter-config')?.name = 'affections-boot-starter-config'
+
