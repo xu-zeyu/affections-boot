@@ -37,4 +37,4 @@ out/
 .vscode/
 
 # 环境变量文件
-jinHan-gold/jinHan-gold-admin-web/.env
+.env
