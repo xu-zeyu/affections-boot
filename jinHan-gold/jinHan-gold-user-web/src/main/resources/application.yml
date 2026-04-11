@@ -3,30 +3,34 @@ server:
 
 spring:
   application:
-    name: jinHan-gold-user-web
+    name: jinHan-gold-admin-web
   cloud:
     config:
-      uri: ${CONFIG_SERVER_URI:http://localhost:8888}
-      username: ${CONFIG_SERVER_USERNAME:config-server}
-      password: ${CONFIG_SERVER_PASSWORD:config-server-password}
-      profile: ${CONFIG_PROFILE:dev}
-      label: ${CONFIG_LABEL:main}
+      uri: http://localhost:8888
+      username: config-server
+      password: config-server-password
+      profile: dev
+      label: main
 
   web:
     resources:
       add-mappings: false
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
   datasource:
-    driver-class-name: ${DB_DRIVER_CLASS_NAME:com.mysql.jdbc.Driver}
-    url: ${DB_URL:jdbc:mysql://localhost:3306/jinHan}
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:xuzeyu456}
+    driver-class-name: ${DB_DRIVER_CLASS_NAME}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
     # Redis配置
     redis:
-      host: ${REDIS_HOST:localhost}
-      port: ${REDIS_PORT:6379}
-      password: ${REDIS_PASSWORD:}
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
 
 mybatis-plus:
   configuration:
@@ -58,9 +62,9 @@ sa-token:
 
 aliyun:
   oss:
-    endpoint: oss-cn-heyuan.aliyuncs.com
+    endpoint: ${ALIYUN_OSS_ENDPOINT}
     access-key-id: ${ALIYUN_OSS_ACCESS_KEY_ID}
     access-key-secret: ${ALIYUN_OSS_ACCESS_KEY_SECRET}
-    bucket-name: bdj-mall-img
-    region: cn-heyuan
+    bucket-name: ${ALIYUN_OSS_BUCKET_NAME}
+    region: ${ALIYUN_OSS_REGION}
 
