@@ -22,11 +22,6 @@ public class OrderPayCommand {
     private PaymentMethodEnum paymentMethod;
 
     /**
-     * 订单金额
-     */
-    private BigDecimal orderAmount;
-
-    /**
      * 凭证URL
      */
     private String evidence;
