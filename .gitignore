@@ -38,3 +38,4 @@ out/
 
 # 环境变量文件
 jinHan-gold/jinHan-gold-admin-web/.env
+jinHan-gold/jinHan-gold-user-web/.env
