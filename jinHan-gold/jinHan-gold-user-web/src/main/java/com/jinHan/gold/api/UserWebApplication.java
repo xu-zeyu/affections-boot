@@ -21,7 +21,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class UserWebApplication {
     public static void main(String[] args) {
         // 加载 .env 文件
-        Dotenv dotenv = Dotenv.configure().load();
+        // 从当前模块目录(jinHan-gold-admin-web)加载 .env 文件
+        Dotenv dotenv = Dotenv.configure().directory("jinHan-gold/jinHan-gold-user-web").load();
         // 将环境变量设置到系统环境中
         dotenv.entries().forEach(entry -> {
             if (System.getenv(entry.getKey()) == null) {

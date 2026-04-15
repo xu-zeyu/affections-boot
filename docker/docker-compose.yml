@@ -1,0 +1,43 @@
+services:
+  redis:
+    image: registry.cn-qingdao.aliyuncs.com/beijingzxj/redis:latest
+    container_name: redis
+    command: redis-server /etc/redis/redis.conf
+    restart: always
+    platform: linux/amd64
+    ports:
+      - 6379:6379
+    networks:
+      - local-network
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
+      - ./data:/data
+    environment:
+      TZ: Asia/Shanghai
+      
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: jh-rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_VHOST: /
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+volumes:
+  redis-data:
+  rabbitmq-data:
+
+networks:
+  local-network:
+    driver: bridge
