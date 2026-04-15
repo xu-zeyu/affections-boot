@@ -4,6 +4,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 类名: UserWebApplication
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 创建时间: 2025/01/09
  */
 @SpringBootApplication(scanBasePackages = {"com.jinHan.gold","com.affectionsboot"})
+@EnableScheduling
 @MapperScan({
         "com.jinHan.gold",
         "com.affectionsboot.auth"

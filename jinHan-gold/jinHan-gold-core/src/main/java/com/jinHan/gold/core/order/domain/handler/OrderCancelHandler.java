@@ -5,6 +5,8 @@ import com.jinHan.gold.core.order.domain.command.OrderCancelCommand;
 import com.jinHan.gold.core.order.domain.mapper.OrderMapper;
 import com.jinHan.gold.core.order.domain.model.OrderStatusEnum;
 import com.jinHan.gold.core.order.domain.model.Orders;
+import com.jinHan.gold.core.todo.domain.event.BizEventPublisher;
+import com.jinHan.gold.core.todo.domain.event.BizEventTypeEnum;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,9 @@ public class OrderCancelHandler {
 
     @Resource
     private OrderMapper orderMapper;
+
+    @Resource
+    private BizEventPublisher bizEventPublisher;
 
     @Transactional(rollbackFor = Exception.class)
     public void cancel(OrderCancelCommand command) {
@@ -44,5 +49,6 @@ public class OrderCancelHandler {
         if (updated <= 0) {
             throw new BusinessException("订单取消失败");
         }
+        bizEventPublisher.publish(BizEventTypeEnum.ORDER_CANCELLED, order.getOrderId(), order.getUserId());
     }
 }

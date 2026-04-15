@@ -31,6 +31,12 @@ spring:
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    virtual-host: ${RABBITMQ_VHOST:/}
 
 mybatis-plus:
   configuration:
@@ -68,3 +74,15 @@ aliyun:
     bucket-name: ${ALIYUN_OSS_BUCKET_NAME}
     region: ${ALIYUN_OSS_REGION}
 
+todo:
+  expire:
+    enabled: true
+    fixed-delay-ms: 60000
+  order-pay-timeout-minutes: 30
+  order-ship-timeout-hours: 24
+  biz-event:
+    mode: ${TODO_BIZ_EVENT_MODE:local}
+    rabbit:
+      exchange: todo.biz.event.exchange
+      queue: todo.biz.event.queue
+      routing-key: todo.biz.event

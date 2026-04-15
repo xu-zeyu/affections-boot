@@ -13,6 +13,8 @@ import com.jinHan.gold.core.order.domain.mapper.OrderMapper;
 import com.jinHan.gold.core.order.domain.model.OrderStatusEnum;
 import com.jinHan.gold.core.order.domain.model.Orders;
 import com.jinHan.gold.core.order.domain.model.PaymentMethodEnum;
+import com.jinHan.gold.core.todo.domain.event.BizEventPublisher;
+import com.jinHan.gold.core.todo.domain.event.BizEventTypeEnum;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +35,9 @@ public class OrderPayHandler {
 
     @Resource
     private  IncomeRecordCreateHandler incomeRecordCreateHandler;
+
+    @Resource
+    private BizEventPublisher bizEventPublisher;
 
     @Transactional(rollbackFor = Exception.class)
     public void pay(OrderPayCommand command) {
@@ -67,5 +72,6 @@ public class OrderPayHandler {
         incomeRecordCreateCommand.setMoney(order.getTotalAmount());
         incomeRecordCreateCommand.setEvidenceUrl(command.getEvidence());
         incomeRecordCreateHandler.create(incomeRecordCreateCommand);
+        bizEventPublisher.publish(BizEventTypeEnum.ORDER_PAID, order.getOrderId(), order.getUserId());
     }
 }

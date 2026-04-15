@@ -5,6 +5,12 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
 
 # 阿里云 OSS 配置
 aliyun:
@@ -20,3 +26,11 @@ logging:
   level:
     root: info
     com.jinHan.gold: debug
+
+todo:
+  biz-event:
+    mode: local
+    rabbit:
+      exchange: todo.biz.event.exchange
+      queue: todo.biz.event.queue
+      routing-key: todo.biz.event

@@ -19,6 +19,8 @@ dependencies {
     implementation(project(":affections-boot-auth"))
     api(project(":affections-boot-start:affections-boot-starter-mybatis"))
     implementation(project(":affections-boot-start:affections-boot-starter-log"))
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
 }
 test {
     useJUnitPlatform()

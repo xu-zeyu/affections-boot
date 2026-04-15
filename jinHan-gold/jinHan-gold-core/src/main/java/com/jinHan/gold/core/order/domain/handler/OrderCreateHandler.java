@@ -13,6 +13,8 @@ import com.jinHan.gold.core.product.domain.command.ProductFindCommand;
 import com.jinHan.gold.core.product.domain.handler.ProductFindCommandHandler;
 import com.jinHan.gold.core.product.domain.mapper.ProductMapper;
 import com.jinHan.gold.core.product.domain.model.Product;
+import com.jinHan.gold.core.todo.domain.event.BizEventPublisher;
+import com.jinHan.gold.core.todo.domain.event.BizEventTypeEnum;
 import com.jinHan.gold.core.users.domain.mapper.UserMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
@@ -46,6 +48,9 @@ public class OrderCreateHandler {
 
     @Resource
     private ProductFindCommandHandler productFindCommandHandler;
+
+    @Resource
+    private BizEventPublisher bizEventPublisher;
 
     /**
      * 生成订单ID
@@ -99,6 +104,7 @@ public class OrderCreateHandler {
         // 保存订单商品明细
         int insert = orderItemMapper.insert(orderItem);
         if (insert <= 0) { throw new BusinessException("下单失败");}
+        bizEventPublisher.publish(BizEventTypeEnum.ORDER_CREATED, orderId, command.getUserId());
         return orderId;
     }
 }
