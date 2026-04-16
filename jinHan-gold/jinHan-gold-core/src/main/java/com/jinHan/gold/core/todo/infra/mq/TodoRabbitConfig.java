@@ -1,5 +1,6 @@
 package com.jinHan.gold.core.todo.infra.mq;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -45,8 +46,8 @@ public class TodoRabbitConfig {
     }
 
     @Bean
-    public MessageConverter messageConverter() {
-        return new Jackson2JsonMessageConverter();
+    public MessageConverter messageConverter(ObjectMapper objectMapper) {
+        return new Jackson2JsonMessageConverter(objectMapper);
     }
 
     @Bean
