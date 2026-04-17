@@ -21,6 +21,16 @@
         FROM admin_role r
                 WHERE r.id = #{roleId}
     </select>
+
+    <select id="selectAdminIdsByPermissionCode" resultType="java.lang.Long">
+        SELECT DISTINCT a.id
+        FROM admin a
+        INNER JOIN admin_role r ON a.role_id = r.id
+        LEFT JOIN admin_role_permission rp ON r.id = rp.role_id
+        LEFT JOIN admin_permission p ON rp.permission_id = p.id
+        WHERE r.deleted = 0
+          AND (a.role_id = 1 OR p.code = #{permissionCode})
+    </select>
     
     <!-- 删除角色的所有权限 -->
     <delete id="deleteRolePermissions">

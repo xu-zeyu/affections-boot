@@ -1,5 +1,6 @@
 package com.jinHan.gold.admin.controller.todo;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.affectionsboot.common.model.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jinHan.gold.core.todo.domain.command.TodoPageQueryCommand;
@@ -25,6 +26,7 @@ public class TodoController {
     @GetMapping("/page")
     public Result<IPage<Todo>> page(@Valid TodoPageQueryCommand command) {
         command.setReceiverType(TodoReceiverTypeEnum.ADMIN);
+        command.setReceiverId(Long.parseLong(StpUtil.getLoginId().toString()));
         return Result.success(todoQueryHandler.queryPage(command));
     }
 
@@ -32,6 +34,7 @@ public class TodoController {
     public Result<Long> pendingCount() {
         TodoPageQueryCommand command = new TodoPageQueryCommand();
         command.setReceiverType(TodoReceiverTypeEnum.ADMIN);
+        command.setReceiverId(Long.parseLong(StpUtil.getLoginId().toString()));
         return Result.success(todoQueryHandler.countPending(command));
     }
 }

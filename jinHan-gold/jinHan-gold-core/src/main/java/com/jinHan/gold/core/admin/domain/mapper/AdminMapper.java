@@ -19,6 +19,7 @@ import java.util.List;
 public interface AdminMapper  extends BaseMapperX<Admin> {
     List<AdminPermission> selectByRole(Object roleId);
     AdminRole selectByRoleName(Long roleId);
+    List<Long> selectAdminIdsByPermissionCode(@Param("permissionCode") String permissionCode);
     
     /**
      * 删除角色的所有权限
