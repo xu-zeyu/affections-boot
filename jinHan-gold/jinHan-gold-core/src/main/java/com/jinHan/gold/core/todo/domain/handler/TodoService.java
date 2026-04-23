@@ -32,6 +32,7 @@ public class TodoService {
                 .eq(Todo::getBizId, command.getBizId())
                 .eq(Todo::getReceiverType, command.getReceiverType())
                 .eq(command.getReceiverId() != null, Todo::getReceiverId, command.getReceiverId())
+                .eq(command.getPermissionCode() != null, Todo::getPermissionCode, command.getPermissionCode())
                 .eq(Todo::getStatus, TodoStatusEnum.PENDING))
             .orElse(null);
         if (existed != null) {
@@ -45,6 +46,7 @@ public class TodoService {
         todo.setContent(command.getContent());
         todo.setReceiverType(command.getReceiverType());
         todo.setReceiverId(command.getReceiverId());
+        todo.setPermissionCode(command.getPermissionCode());
         todo.setStatus(TodoStatusEnum.PENDING);
         todo.setSourceEvent(command.getSourceEvent());
         todo.setExpireTime(command.getExpireTime());
@@ -60,6 +62,7 @@ public class TodoService {
                 .eq(Todo::getBizId, command.getBizId())
                 .eq(Todo::getReceiverType, command.getReceiverType())
                 .eq(command.getReceiverId() != null, Todo::getReceiverId, command.getReceiverId())
+                .eq(command.getPermissionCode() != null, Todo::getPermissionCode, command.getPermissionCode())
                 .eq(Todo::getStatus, TodoStatusEnum.PENDING));
         for (Todo todo : todos) {
             todo.setStatus(TodoStatusEnum.COMPLETED);

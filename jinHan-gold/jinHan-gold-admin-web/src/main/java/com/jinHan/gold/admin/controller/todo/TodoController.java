@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * 后台待办接口
  */
@@ -27,6 +29,7 @@ public class TodoController {
     public Result<IPage<Todo>> page(@Valid TodoPageQueryCommand command) {
         command.setReceiverType(TodoReceiverTypeEnum.ADMIN);
         command.setReceiverId(Long.parseLong(StpUtil.getLoginId().toString()));
+        command.setPermissionCodes(currentAdminPermissions());
         return Result.success(todoQueryHandler.queryPage(command));
     }
 
@@ -35,6 +38,11 @@ public class TodoController {
         TodoPageQueryCommand command = new TodoPageQueryCommand();
         command.setReceiverType(TodoReceiverTypeEnum.ADMIN);
         command.setReceiverId(Long.parseLong(StpUtil.getLoginId().toString()));
+        command.setPermissionCodes(currentAdminPermissions());
         return Result.success(todoQueryHandler.countPending(command));
+    }
+
+    private List<String> currentAdminPermissions() {
+        return StpUtil.getPermissionList();
     }
 }

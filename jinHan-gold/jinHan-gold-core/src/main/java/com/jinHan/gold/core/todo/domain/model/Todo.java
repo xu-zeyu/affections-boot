@@ -43,6 +43,12 @@ public class Todo extends BaseEntity {
     @TableField("receiver_id")
     private Long receiverId;
 
+    /**
+     * 接收该待办所需的权限码，主要用于后台管理员待办分发与查询
+     */
+    @TableField("permission_code")
+    private String permissionCode;
+
     private TodoStatusEnum status;
 
     @TableField("source_event")

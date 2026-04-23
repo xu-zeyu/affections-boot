@@ -16,6 +16,7 @@ public class TodoCreateCommand {
     private String content;
     private TodoReceiverTypeEnum receiverType;
     private Long receiverId;
+    private String permissionCode;
     private String sourceEvent;
     private LocalDateTime expireTime;
 }

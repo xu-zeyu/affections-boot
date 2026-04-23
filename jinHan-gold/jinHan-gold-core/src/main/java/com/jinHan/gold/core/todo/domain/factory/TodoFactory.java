@@ -1,7 +1,6 @@
 package com.jinHan.gold.core.todo.domain.factory;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.jinHan.gold.core.admin.domain.mapper.AdminMapper;
 import com.jinHan.gold.core.order.domain.mapper.OrderItemMapper;
 import com.jinHan.gold.core.order.domain.mapper.OrderMapper;
 import com.jinHan.gold.core.order.domain.model.OrderItem;
@@ -16,8 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
 /**
  * 根据业务事件构建待办动作
  */
@@ -33,9 +30,6 @@ public class TodoFactory {
 
     @Resource
     private OrderItemMapper orderItemMapper;
-
-    @Resource
-    private AdminMapper adminMapper;
 
     @Value("${todo.order-pay-timeout-minutes:30}")
     private long orderPayTimeoutMinutes;
@@ -80,19 +74,16 @@ public class TodoFactory {
         completeCommand.setReceiverId(order.getUserId());
         result.getCompleteCommands().add(completeCommand);
 
-        List<Long> adminIds = adminMapper.selectAdminIdsByPermissionCode(ORDER_SHIP_PERMISSION_CODE);
-        for (Long adminId : adminIds) {
-            TodoCreateCommand createCommand = new TodoCreateCommand();
-            createCommand.setBizType(ORDER_SHIP);
-            createCommand.setBizId(order.getOrderId());
-            createCommand.setReceiverType(TodoReceiverTypeEnum.ADMIN);
-            createCommand.setReceiverId(adminId);
-            createCommand.setTitle("订单待发货");
-            createCommand.setContent(buildAdminShipContent(order.getOrderId()));
-            createCommand.setSourceEvent(event.getType().name());
-            createCommand.setExpireTime(LocalDateTime.now().plusHours(orderShipTimeoutHours));
-            result.getCreateCommands().add(createCommand);
-        }
+        TodoCreateCommand createCommand = new TodoCreateCommand();
+        createCommand.setBizType(ORDER_SHIP);
+        createCommand.setBizId(order.getOrderId());
+        createCommand.setReceiverType(TodoReceiverTypeEnum.ADMIN);
+        createCommand.setPermissionCode(ORDER_SHIP_PERMISSION_CODE);
+        createCommand.setTitle("订单待发货");
+        createCommand.setContent(buildAdminShipContent(order.getOrderId()));
+        createCommand.setSourceEvent(event.getType().name());
+        createCommand.setExpireTime(LocalDateTime.now().plusHours(orderShipTimeoutHours));
+        result.getCreateCommands().add(createCommand);
         return result;
     }
 
@@ -111,6 +102,7 @@ public class TodoFactory {
         completeCommand.setBizType(ORDER_SHIP);
         completeCommand.setBizId(order.getOrderId());
         completeCommand.setReceiverType(TodoReceiverTypeEnum.ADMIN);
+        completeCommand.setPermissionCode(ORDER_SHIP_PERMISSION_CODE);
         result.getCompleteCommands().add(completeCommand);
         return result;
     }

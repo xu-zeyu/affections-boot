@@ -20,6 +20,7 @@ public class TodoNoticeMessage {
     private String content;
     private TodoReceiverTypeEnum receiverType;
     private Long receiverId;
+    private String permissionCode;
     private TodoStatusEnum status;
     private LocalDateTime expireTime;
 
@@ -33,6 +34,7 @@ public class TodoNoticeMessage {
         message.setContent(todo.getContent());
         message.setReceiverType(todo.getReceiverType());
         message.setReceiverId(todo.getReceiverId());
+        message.setPermissionCode(todo.getPermissionCode());
         message.setStatus(todo.getStatus());
         message.setExpireTime(todo.getExpireTime());
         return message;

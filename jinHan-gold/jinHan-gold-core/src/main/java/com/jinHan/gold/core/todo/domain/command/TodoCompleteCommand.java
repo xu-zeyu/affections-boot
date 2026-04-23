@@ -12,4 +12,5 @@ public class TodoCompleteCommand {
     private String bizId;
     private TodoReceiverTypeEnum receiverType;
     private Long receiverId;
+    private String permissionCode;
 }

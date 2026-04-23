@@ -6,6 +6,8 @@ import com.jinHan.gold.core.todo.domain.model.TodoStatusEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 /**
  * 待办分页查询命令
  */
@@ -15,5 +17,7 @@ public class TodoPageQueryCommand extends PageParam {
     private TodoStatusEnum status;
     private TodoReceiverTypeEnum receiverType;
     private Long receiverId;
+    private String permissionCode;
+    private List<String> permissionCodes;
     private String bizType;
 }
