@@ -6,6 +6,8 @@ import com.jinHan.gold.core.users.domain.model.UsersStatusEnum;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 类名: UserInfoVo
@@ -24,6 +26,7 @@ public class UserInfoResponse {
     private LocalDateTime lastLoginAt;
     private String idNumber;
     private GenderEnum gender;
+    private List<UserPetResponse> petList;
 
 
     public UserInfoResponse(Users users) {
@@ -36,5 +39,6 @@ public class UserInfoResponse {
         lastLoginAt = users.getLastLoginAt();
         idNumber = users.getIdNumber();
         gender = users.getGender();
+        petList = Collections.emptyList();
     }
 }

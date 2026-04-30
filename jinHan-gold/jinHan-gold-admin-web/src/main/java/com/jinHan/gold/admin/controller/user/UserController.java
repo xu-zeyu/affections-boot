@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jinHan.gold.admin.controller.user.request.AuditTypeRequest;
 import com.jinHan.gold.admin.controller.user.request.UserPageRequest;
 import com.jinHan.gold.admin.controller.user.response.UserInfoResponse;
+import com.jinHan.gold.admin.controller.user.response.UserPetResponse;
 import com.jinHan.gold.core.auth.domain.command.UserAuthAuditCommand;
 import com.jinHan.gold.core.auth.domain.handler.UserAuthAuditHandler;
 import com.jinHan.gold.core.auth.domain.mapper.IdCardInfoMapper;
@@ -17,10 +18,16 @@ import com.jinHan.gold.core.auth.domain.model.IdCardInfo;
 import com.jinHan.gold.core.users.domain.command.UserInfoCommand;
 import com.jinHan.gold.core.users.domain.command.UserPageCommand;
 import com.jinHan.gold.core.users.domain.handler.UserInfoHandler;
+import com.jinHan.gold.core.users.domain.handler.UserPetQueryHandler;
 import com.jinHan.gold.core.users.domain.handler.UserPageCommandHandler;
+import com.jinHan.gold.core.users.domain.model.UserPet;
 import com.jinHan.gold.core.users.domain.model.Users;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 类名: UserController
@@ -44,6 +51,9 @@ public class UserController {
     @Resource
     private UserInfoHandler userInfoHandler;
 
+    @Resource
+    private UserPetQueryHandler userPetQueryHandler;
+
     /**
      * 分页查询用户
      */
@@ -53,7 +63,14 @@ public class UserController {
     public Result<Page<UserInfoResponse>> userInfo(UserPageRequest request) {
         UserPageCommand command = request.toCommand();
         Page<Users> usersPage = userPageCommandHandler.page(command);
-        Page<UserInfoResponse> responsePage = (Page<UserInfoResponse>) usersPage.convert(UserInfoResponse::new);
+        Map<Long, List<UserPet>> userPetMap = userPetQueryHandler.findMapByUserIds(
+                usersPage.getRecords().stream().map(Users::getUserId).toList()
+        );
+        Page<UserInfoResponse> responsePage = (Page<UserInfoResponse>) usersPage.convert(user -> {
+            UserInfoResponse response = new UserInfoResponse(user);
+            response.setPetList(toUserPetResponseList(userPetMap.get(user.getUserId())));
+            return response;
+        });
         return Result.success(responsePage);
     }
 
@@ -66,6 +83,7 @@ public class UserController {
         UserInfoCommand command = new UserInfoCommand(userId);
         Users userInfo = userInfoHandler.userInfo(command);
         UserInfoResponse userInfoResponse = new UserInfoResponse(userInfo);
+        userInfoResponse.setPetList(toUserPetResponseList(userPetQueryHandler.findByUserId(userInfo.getUserId())));
         return  Result.success(userInfoResponse);
     }
 
@@ -101,5 +119,14 @@ public class UserController {
         }
 
         throw new BusinessException("参数错误");
+    }
+
+    private List<UserPetResponse> toUserPetResponseList(List<UserPet> userPetList) {
+        if (userPetList == null || userPetList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return userPetList.stream()
+                .map(UserPetResponse::new)
+                .toList();
     }
 }
