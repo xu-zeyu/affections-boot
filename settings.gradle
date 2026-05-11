@@ -16,6 +16,7 @@ project(':jinHan-gold').projectDir = file('jinHan-gold')
 // 包含 jinHan-gold 下的子模块
 include 'jinHan-gold:jinHan-gold-admin-web'
 include 'jinHan-gold:jinHan-gold-user-web'
+include 'jinHan-gold:jinHan-gold-merchant-web'
 include 'jinHan-gold:jinHan-gold-core'
 
 

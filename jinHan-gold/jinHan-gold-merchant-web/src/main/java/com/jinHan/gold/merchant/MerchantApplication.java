@@ -1,0 +1,33 @@
+package com.jinHan.gold.merchant;
+
+import io.github.cdimascio.dotenv.Dotenv;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
+/**
+ * 类名: MerchantApplication
+ * 描述: 商家端应用启动类
+ * 作者: xuzeyu
+ * 创建时间: 2026/05/06
+ */
+@SpringBootApplication(scanBasePackages = {"com.jinHan.gold","com.affectionsboot"})
+@EnableScheduling
+@MapperScan({
+        "com.jinHan.gold",
+        "com.affectionsboot.auth"
+})
+public class MerchantApplication {
+    public static void main(String[] args) {
+        // 从当前模块目录(jinHan-gold-merchant-web)加载 .env 文件
+        Dotenv dotenv = Dotenv.configure().directory("jinHan-gold/jinHan-gold-merchant-web").load();
+        // 将环境变量设置到系统环境中
+        dotenv.entries().forEach(entry -> {
+            if (System.getenv(entry.getKey()) == null) {
+                System.setProperty(entry.getKey(), entry.getValue());
+            }
+        });
+        SpringApplication.run(MerchantApplication.class, args);
+    }
+}

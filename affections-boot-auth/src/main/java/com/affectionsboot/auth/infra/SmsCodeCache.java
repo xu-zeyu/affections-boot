@@ -28,6 +28,8 @@ public class SmsCodeCache {
 
     private static final String USERS_SMS_CODE_CACHE_PREFIX = "smsUsers:";
 
+    private static final String MERCHANTS_SMS_CODE_CACHE_PREFIX = "smsMerchants:";
+
     public void setCache(String mobile, String code) {
         this.cache.set(SMS_CODE_CACHE_PREFIX + mobile, code, Duration.ofMinutes(3));
     }
@@ -48,6 +50,17 @@ public class SmsCodeCache {
     }
 
     public void removeUserCache(String mobile) {this.cache.delete(USERS_SMS_CODE_CACHE_PREFIX + mobile);}
+
+
+    public void setMerchantCache(String mobile, String code) {
+        this.cache.set(MERCHANTS_SMS_CODE_CACHE_PREFIX + mobile, code, Duration.ofMinutes(3));
+    }
+
+    public Optional<String> getMerchantCache(String mobile) {
+        return this.cache.getCache(MERCHANTS_SMS_CODE_CACHE_PREFIX + mobile).filter(o -> o instanceof String).map(o -> (String) o);
+    }
+
+    public void removeMerchantCache(String mobile) {this.cache.delete(MERCHANTS_SMS_CODE_CACHE_PREFIX + mobile);}
 
 
     // 创建验证码
